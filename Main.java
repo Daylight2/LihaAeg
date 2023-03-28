@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Soovime olla abiks teie poolt valitud lihale õige küpsetusaja määramisel. Lisaks pakume ka ühe võimaliku lisandi, mis antud lihaga sobida võiks.");
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Sisesta lihatüüp (veiseliha, sealiha, kalaliha, kanaliha, kalkuniliha): ");
+        System.out.print("Sisesta lihatüüp (veiseliha, sealiha, kanaliha, kalkuniliha): ");
         String lihaTüüp = scanner.nextLine();
 
         System.out.print("Sisestage liha kaal (grammides): ");
@@ -19,7 +19,10 @@ public class Main {
         System.out.print("Kas liha on külm? (true/false): ");
         boolean külmutatud = scanner.nextBoolean();
 
-        if (lihaTüüp.equalsIgnoreCase("veiseliha") | lihaTüüp.equalsIgnoreCase("sealiha") | lihaTüüp.equalsIgnoreCase("kalkuniliha") | lihaTüüp.equalsIgnoreCase("kanaliha") | lihaTüüp.equalsIgnoreCase("kalkuniliha")) {
+        if (lihaTüüp.equalsIgnoreCase("veiseliha")
+                | lihaTüüp.equalsIgnoreCase("sealiha")
+                | lihaTüüp.equalsIgnoreCase("kanaliha")
+                | lihaTüüp.equalsIgnoreCase("kalkuniliha")) {
             Liha liha = new Liha(lihaTüüp, weight, küpsetusTase, temperatuur, külmutatud);
             Lisand lisand = new Lisand(liha);
 
