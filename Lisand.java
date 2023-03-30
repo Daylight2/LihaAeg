@@ -1,7 +1,7 @@
 public class Lisand {
-    private String[] veiseLisandid = {"ahjukartulid", "kartulilootsikud", "rohelised oad", "sparglid", "kartulipuder"};
-    private String[] sealihaLisandid = {"ahjukartulid", "kartulilootsikud", "ahjuporgandid", "marineeritud peedid", "keedukartulid", "tatar"};
-    private String[] linnuLisandid = {"ahjukartulid", "kartulilootsikud", "rohelised oad", "riis", "kuskus", "grillitud paprika"};
+    private static String[] veiseLisandid = {"ahjukartulid", "kartulilootsikud", "rohelised oad", "sparglid", "kartulipuder"};
+    private static String[] sealihaLisandid = {"ahjukartulid", "kartulilootsikud", "ahjuporgandid", "marineeritud peedid", "keedukartulid", "tatar"};
+    private static String[] linnuLisandid = {"ahjukartulid", "kartulilootsikud", "rohelised oad", "riis", "kuskus", "grillitud paprika"};
     private String valitudLisand;
     public Lisand(Liha liha) {
         if (liha.getLihaTüüp().equalsIgnoreCase("veiseliha")) {

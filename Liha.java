@@ -1,13 +1,13 @@
 public class Liha {
     private String lihaTüüp;
-    private double weight;
+    private double kaal;
     private String küpsetusTase;
     private int temperatuur;
     private boolean külmutatud;
 
-    public Liha(String lihaTüüp, double weight, String küpsetusTase, int temperatuur, boolean külmutatud) {
+    public Liha(String lihaTüüp, double kaal, String küpsetusTase, int temperatuur, boolean külmutatud) {
         this.lihaTüüp = lihaTüüp;
-        this.weight = weight;
+        this.kaal = kaal;
         this.küpsetusTase = küpsetusTase;
         this.temperatuur = temperatuur;
         this.külmutatud = külmutatud;
@@ -36,8 +36,8 @@ public class Liha {
             default:
                 System.out.println("Kahjuks sellist lihatüüpi me ei tea.");
         }
-        if (weight > 500) {
-            küpsetusAeg = küpsetusAeg * (1 + weight / 1000);
+        if (kaal > 500) {
+            küpsetusAeg = küpsetusAeg * (1 + kaal / 1000);
         }
 
         if (küpsetusTase.equalsIgnoreCase("rare")) {
@@ -64,12 +64,12 @@ public class Liha {
     }
 
     public double ahjuSoojenemine() {
-        double ahiSoeneb = 0.0;
+        double ahiSoojeneb = 0.0;
         if (temperatuur < 185) {
-            ahiSoeneb = 8.0;
-            return ahiSoeneb;
+            ahiSoojeneb = 8.0;
+            return ahiSoojeneb;
         } else {
-            return ahiSoeneb;
+            return ahiSoojeneb;
         }
     }
 
@@ -77,13 +77,13 @@ public class Liha {
     public String toString() {
         if (ahjuSoojenemine() != 0.0) {
             return "Soovite küpsetada " + lihaTüüp +
-                    " kaaluga " + weight + " grammi." +
+                    " kaaluga " + kaal + " grammi." +
                     " Selleks, et saavutada " + '\'' + küpsetusTase + '\'' +
                     " küpsusaste, tuleks liha küpsetada umbes " + küpsetusAeg() +
-                    " minutit. Küpsetusaja sisse on juba arvestatud ahju soojenemine " + ahjuSoojenemine() + " minutit!";
+                    " minutit. Lase enne ahjul soojeneda " + ahjuSoojenemine() + " minutit!";
         } else {
             return "Soovite küpsetada " + lihaTüüp +
-                    " kaaluga " + weight + " grammi." +
+                    " kaaluga " + kaal + " grammi." +
                     " Selleks, et saavutada " + '\'' + küpsetusTase + '\'' +
                     " küpsusaste, tuleks liha küpsetada umbes " + küpsetusAeg() +
                     " minutit. Ahi on juba soe ning võite liha kohe küpsema panna!";

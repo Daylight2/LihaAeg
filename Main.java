@@ -8,7 +8,7 @@ public class Main {
         String lihaTüüp = scanner.nextLine();
 
         System.out.print("Sisestage liha kaal (grammides): ");
-        double weight = scanner.nextDouble();
+        double kaal = scanner.nextDouble();
 
         System.out.print("Sisestage soovitud küpsusaste (rare, medium-rare, medium, medium-well, well-done): ");
         String küpsetusTase = scanner.next();
@@ -23,7 +23,7 @@ public class Main {
                 | lihaTüüp.equalsIgnoreCase("sealiha")
                 | lihaTüüp.equalsIgnoreCase("kanaliha")
                 | lihaTüüp.equalsIgnoreCase("kalkuniliha")) {
-            Liha liha = new Liha(lihaTüüp, weight, küpsetusTase, temperatuur, külmutatud);
+            Liha liha = new Liha(lihaTüüp, kaal, küpsetusTase, temperatuur, külmutatud);
             Lisand lisand = new Lisand(liha);
 
             System.out.println(liha);
