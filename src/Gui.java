@@ -26,7 +26,7 @@ class Gui {
         JPanel aluminePaneel = new JPanel();
         aluminePaneel.setLayout(new GridLayout(1, 4));
 
-        JLabel temperatuuriSilt = new JLabel("Temperatuur (C):");
+        JLabel temperatuuriSilt = new JLabel("Ahju temperatuur (C):");
         aluminePaneel.add(temperatuuriSilt);
 
         JTextField temperatuuriVali = new JTextField();
@@ -45,7 +45,7 @@ class Gui {
         });
         aluminePaneel.add(temperatuuriVali);
 
-        JCheckBox külmMärkeruut = new JCheckBox("Külm");
+        JCheckBox külmMärkeruut = new JCheckBox("Liha külm");
         aluminePaneel.add(külmMärkeruut);
 
         JButton arvutaNupp = new JButton("Arvuta küpsetusaeg");
@@ -74,35 +74,51 @@ class Gui {
                 boolean onKülm = külmMärkeruut.isSelected();
                 tekstiAla.append("\nTemperatuur: " + temperatuur + " C, Külm: " + onKülm + "\n");
 
-                // Loome kaardi pikimate küpsetusaegadega tellimustest
-                Map<Integer, Tellimus> pikimKüpsetusaegTellimused = new HashMap<>();
-
                 // Käi läbi kõik tellimused
                 for (Tellimus tellimus : tellimused) {
-                    // Arvuta küpsetusaeg ja määra see tellimusele
-                    double küpsetusaeg = Liha.arvutaKüpsetusAeg(tellimus, temperatuur, onKülm);
-                    tellimus.getLiha().setKüpsetusaeg(küpsetusaeg);
-                    tekstiAla.append("Küpsetusaeg " + tellimus + "\n");
+                    Liha uueKüpsetusajaga = tellimus.getLiha();
+                    // Arvuta uus küpsetusaeg ja määra see tellimusele
+                    uueKüpsetusajaga.külmutatudLiha(onKülm);
+                    uueKüpsetusajaga.ahjuTemperatuur(temperatuur);
+                    tellimus.setLiha(uueKüpsetusajaga);
 
-                    // Leia laua number
-                    int lauaNr = tellimus.getLauaNr();
-                    // Leia praegune pikim tellimus laualt
-                    Tellimus praegunePikimTellimus = pikimKüpsetusaegTellimused.get(lauaNr);
+                    tekstiAla.append("Uus küpsetusaeg: " + tellimus + "\n");
+                }
 
-                    // Kontrolli, kas praegune tellimus on pikema küpsetusajaga kui praegune pikim tellimus
-                    if (praegunePikimTellimus == null || tellimus.compareTo(praegunePikimTellimus) > 0) {
-                        pikimKüpsetusaegTellimused.put(lauaNr, tellimus);
+                //loome kujutuse laudade kaupa tellimuste hoidmiseks funktsiooniga "laudadeTellimused"
+                Map<Integer, List<Tellimus>> lauad = Main.laudadeTellimused(tellimused);
+                /* sorteerime saadud tellimused funktsiooniga "sorteeriLauad", mis kasutab klassis Tellimus olevat "compareTo" meetodit
+                ehk sorteerib tellimused vastavalt liha küpsetusaegadele kahanevalt */
+                lauad = Main.sorteeriLauad(lauad);
+                Tellimus pikimTellimus = tellimused.get(0); //määrame algseks pikimaks tellimuseks esimese listis oleva tellimuse
+
+                // Trüki pikima küpsetusajaga tellimused laudade kaupa
+                tekstiAla.append("\nAllpool on toodud iga laua pikima küpsetusajaga tellimus:\n");
+                for (Integer lauaNr : lauad.keySet()) {
+                    // Leia pikim tellimus antud laualt
+                    List<Tellimus> lauaTellimused = lauad.get(lauaNr);
+                    Tellimus longestOrder = lauaTellimused.get(0);
+                    // Lisa tellimuse info teksti alasse
+                    tekstiAla.append("Laud " + lauaNr + ": " + longestOrder + "\n");
+
+                    if (longestOrder.compareTo(pikimTellimus) > 0) {
+                        pikimTellimus = longestOrder;
                     }
                 }
 
-                // Trüki pikima küpsetusajaga tellimused laudade kaupa
-                tekstiAla.append("\nKauem aega võtvad tellimused laudade kaupa:\n");
-                for (Integer lauaNr : pikimKüpsetusaegTellimused.keySet()) {
-                    // Leia pikim tellimus antud laualt
-                    Tellimus longestOrder = pikimKüpsetusaegTellimused.get(lauaNr);
-                    // Lisa tellimuse info teksti alasse
-                    tekstiAla.append("Laud " + lauaNr + ": " + longestOrder + "\n");
+                tekstiAla.append("\nKõige kauem võtab aega " + pikimTellimus + "\n");
+
+
+                try {
+                    //kirjutame juhised funktsiooniga "kirjutaJuhised" iga laua kohta liha küpsetamiseks (küpsetusaegade põhjal)
+                    Main.kirjutaJuhised(lauad);
+                    //edukal failikirjutamisel väljastame teate
+                    tekstiAla.append("Juhised kirjutatud tekstifaili!");
+                } catch (IOException r){
+                    tekstiAla.append("Faili kirjutamine ebaõnnestus.");
                 }
+
+
             } else {
                 // Kuvame hoiatusteate, kui temperatuur ei ole lubatud vahemikus
                 JOptionPane.showMessageDialog(raam,
@@ -110,7 +126,6 @@ class Gui {
                         "Vigane temperatuur",
                         JOptionPane.WARNING_MESSAGE);
             }
-
         });
     }
 }
