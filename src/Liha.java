@@ -74,20 +74,12 @@ public class Liha {
         }
     }
 
-    public void ahjuTemperatuur(int temperatuur) {
+    public void ahjuTemperatuur(double temperatuur) {
         if (temperatuur < 185) {
             this.küpsetusaeg += 8;
         } else if (temperatuur > 215) {
             this.küpsetusaeg -= 8;
         }
-    }
-
-    public static double arvutaKüpsetusAeg(Tellimus tellimus, double temperatuur, boolean isKülm) {
-        Liha liha = new Liha(tellimus.getLiha().getLihaTüüp(), tellimus.getLiha().getKaal(), tellimus.getLiha().getKüpsetusTase());
-        liha.külmutatudLiha(isKülm);
-        liha.ahjuTemperatuur((int) temperatuur);
-
-        return liha.getKüpsetusaeg();
     }
 
     @Override
