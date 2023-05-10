@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.List;
 
@@ -84,5 +85,41 @@ public class Main {
             }
         }
         return lauad;
+    }
+
+
+    //sorteerime lauad "compareTo" meetodi alusel (klassis Tellimus) küpsetusaja järgi kahanevalt
+    public static Map<Integer, List<Tellimus>> sorteeriLauad(Map<Integer, List<Tellimus>> lauad) {
+        for (Integer laud : lauad.keySet()) {
+            List<Tellimus> lauaTellimused = lauad.get(laud);
+            Collections.sort(lauaTellimused, Collections.reverseOrder());
+            lauad.put(laud, lauaTellimused);
+        }
+        return lauad;
+    }
+
+    /*faili kirjutamine
+    faili põhimõte: laudade kaupa juhised: esmalt laua number, sellele järgneb kogu laudkonna kõige pikima ajaga liha küpsetusaeg (ehk kui palju kulub antud laua peale kokku aega)
+    siis järgneb juhis panna liha ahju ning ahjus oleva liha küpsetusajast lahutatakse järgmise liha küpsetusaeg ehk saadakse ooteaeg kuni järgmine liha ahju panna jne
+    */
+    public static void kirjutaJuhised(Map<Integer, List<Tellimus>> tellimused) throws IOException {
+        try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("juhised.txt"), StandardCharsets.UTF_8))){
+            for (Integer lauaNr : tellimused.keySet()) {
+                List<Tellimus> lauaTellimused = tellimused.get(lauaNr);
+                bw.write("Laud " + lauaNr + "- ");
+                double maxAeg = lauaTellimused.get(0).getLiha().getKüpsetusaeg(); //loome muutuja pikima küpsetusaja jaoks
+                bw.write("valmistamine võtab kokku " + maxAeg + " minutit: ");
+                for (int i = 0; i < lauaTellimused.size(); i++) {
+                    Tellimus tellimus = lauaTellimused.get(i);
+                    bw.write("pane ahju " + tellimus.getLiha().getLihaTüüp() + ";");
+                    if (i != lauaTellimused.size()-1) { //kui tegemist ei ole viimase tellimusega listis, siis lisame järgmise liha ooteaja
+                        double ooteAeg = tellimus.getLiha().getKüpsetusaeg() - lauaTellimused.get(i+1).getLiha().getKüpsetusaeg();
+                        bw.write(" oota " + ooteAeg + " minutit; ");
+                    } else {
+                        bw.newLine();
+                    }
+                }
+            }
+        }
     }
 }
