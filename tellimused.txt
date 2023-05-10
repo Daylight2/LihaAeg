@@ -1,0 +1,5 @@
+5;kalkuniliha;suur@lisand
+1;kanaliha;väike@lisand
+1;veiseliha;suur;medium@lisand
+1;sealiha;suur
+3;veiseliha;väike;medium-well
