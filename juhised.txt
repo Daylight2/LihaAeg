@@ -1,0 +1,3 @@
+Laud 1- valmistamine võtab kokku 69.25 minutit: pane ahju sealiha; oota 14.25 minutit; pane ahju kanaliha; oota 3.5 minutit; pane ahju veiseliha;
+Laud 3- valmistamine võtab kokku 40.0 minutit: pane ahju veiseliha;
+Laud 5- valmistamine võtab kokku 84.75 minutit: pane ahju kalkuniliha;
